@@ -8,7 +8,7 @@ namespace MedicalStoreWebApi.Models
 {
     public class Category
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
       //  [Display("Category Name")]

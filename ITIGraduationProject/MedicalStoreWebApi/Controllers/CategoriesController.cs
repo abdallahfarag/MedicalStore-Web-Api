@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Data.Entity.Migrations;
+using System.Web;
 
 namespace MedicalStoreWebApi.Controllers
 {
@@ -70,7 +71,7 @@ namespace MedicalStoreWebApi.Controllers
                 return BadRequest();
             }
 
-            var catChk = await db.Categories.FindAsync(category.ID);
+            var catChk = await db.Categories.FindAsync(category.Id);
 
             if(catChk is null)
             {
@@ -97,6 +98,75 @@ namespace MedicalStoreWebApi.Controllers
             await db.SaveChangesAsync();
 
             return Ok("Deleted successfully");
+        }
+
+
+        [HttpPost]
+        [Route("api/Product/UploadImage")]
+        public HttpResponseMessage UploadImage()
+        {
+            // Check if the request contains multipart/form-data. 
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+
+                var httpRequest = HttpContext.Current.Request;
+
+                foreach (string file in httpRequest.Files)
+                {
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+
+                    var postedFile = httpRequest.Files[file];
+                    if (postedFile != null && postedFile.ContentLength > 0)
+                    {
+
+                        int MaxContentLength = 1024 * 1024 * 1; //Size = 1 MB  
+
+                        IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                        var ext = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.'));
+                        var fileName = postedFile.FileName.Substring(0, postedFile.FileName.IndexOf('.'));
+                        var extension = ext.ToLower();
+                        if (!AllowedFileExtensions.Contains(extension))
+                        {
+                            var message = $"Please Upload image of type .jpg,.gif,.png.";
+
+                            dict.Add("error", message);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, dict);
+                        }
+                        else if (postedFile.ContentLength > MaxContentLength)
+                        {
+
+                            var message = $"Please Upload a file upto 1 mb.";
+
+                            dict.Add("error", message);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, dict);
+                        }
+                        else
+                        {
+                            var filePath = HttpContext.Current.Server.MapPath($"~/App_Data/Images/{fileName}");
+                            //var filePath = HttpContext.Current.Server.MapPath($"~/App_Data/Images/{fileName}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{extension}");
+
+                            postedFile.SaveAs(filePath);
+                        }
+                    }
+
+                    var message1 = $"Image Updated Successfully.";
+                    return Request.CreateErrorResponse(HttpStatusCode.Created, message1); ;
+                }
+                var res = $"Please Upload a image.";
+                dict.Add("error", res);
+                return Request.CreateResponse(HttpStatusCode.NotFound, dict);
+            }
+            catch
+            {
+                var res = $"something is wrong";
+                dict.Add("error", res);
+                return Request.CreateResponse(HttpStatusCode.NotFound, dict);
+            }
         }
     }
 }
