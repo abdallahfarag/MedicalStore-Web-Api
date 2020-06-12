@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedicalStoreWebApi.Controllers
 {
-  // [Authorize(Roles ="User")]
+  [Authorize(Roles ="Customer")]
     public class OrderController : ApiController
     {
         private MedicalStoreDbContext db;
@@ -17,7 +17,7 @@ namespace MedicalStoreWebApi.Controllers
         {
             db = new MedicalStoreDbContext();
         }
-      //  [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin,Customer")]
        //[AllowAnonymous]
         public IHttpActionResult GetOrders()
         {
@@ -28,7 +28,7 @@ namespace MedicalStoreWebApi.Controllers
             }
             return Ok(order);
         }
-       // [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin,Customer")]
        //[AllowAnonymous]
         public async Task<IHttpActionResult> GetOrder(int id)
         {
@@ -51,6 +51,7 @@ namespace MedicalStoreWebApi.Controllers
             return BadRequest();
         }
 
+        [Authorize(Roles = "Admin,Customer")]
         public async Task<IHttpActionResult> DeleteOrder(int id)
         {
             var order = await db.Orders.FindAsync(id);
@@ -63,7 +64,7 @@ namespace MedicalStoreWebApi.Controllers
 
             return Ok();
         }
-
+        [Authorize(Roles ="Admin,Customer")]
         public async Task<IHttpActionResult> PutOrder(Order order)
         {
            // var ord = await db.Orders.FindAsync(order.Id);
