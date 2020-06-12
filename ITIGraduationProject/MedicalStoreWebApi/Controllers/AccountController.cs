@@ -490,6 +490,19 @@ namespace MedicalStoreWebApi.Controllers
             }
             return this.Ok();
         }
+
+        [Authorize(Roles ="Admin")]
+        [Route("users")]
+        public IHttpActionResult GetUsers()
+        {
+            var users = UserManager.Users.ToList();
+            if(users == null)
+            {
+                return BadRequest();
+            }
+            return Ok(users);
+        }
+
         #region Helpers
 
         private IAuthenticationManager Authentication

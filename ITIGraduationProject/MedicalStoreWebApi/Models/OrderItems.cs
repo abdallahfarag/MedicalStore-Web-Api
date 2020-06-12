@@ -7,22 +7,21 @@ using System.Web;
 
 namespace MedicalStoreWebApi.Models
 {
-    public class Cart
+    public class OrderItems
     {
         [Key]
         [Column(Order =0)]
-        [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        [ForeignKey(nameof(Order))]
+        public int OrderId { get; set; }
 
         [Key]
         [Column(Order =1)]
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
 
-        [Required]
         public int Quantity { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
-        public virtual Product Product { get; set; } 
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

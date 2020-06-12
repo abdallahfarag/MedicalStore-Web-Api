@@ -17,6 +17,8 @@ namespace MedicalStoreWebApi.Models
         public string Address { get; set; }
         public string  Gender { get; set; }
 
+        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -25,7 +27,6 @@ namespace MedicalStoreWebApi.Models
             return userIdentity;
         }
 
-        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 
     public class MedicalStoreDbContext : IdentityDbContext<ApplicationUser>

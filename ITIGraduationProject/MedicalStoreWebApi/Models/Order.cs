@@ -18,8 +18,10 @@ namespace MedicalStoreWebApi.Models
         [Required]
         public bool IsDelivered { get; set; }
         public string FeedBack { get; set; }
+
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
+
         public virtual ApplicationUser User  { get; set; }
 
     }
