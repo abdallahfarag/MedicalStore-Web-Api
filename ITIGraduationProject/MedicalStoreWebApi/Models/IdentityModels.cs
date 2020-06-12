@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace MedicalStoreWebApi.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 
     public class MedicalStoreDbContext : IdentityDbContext<ApplicationUser>
@@ -39,6 +42,10 @@ namespace MedicalStoreWebApi.Models
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+
+        public virtual DbSet<Order> Orders { get; set; }
+
+       
 
     }
 }
