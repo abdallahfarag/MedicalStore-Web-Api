@@ -26,6 +26,7 @@ namespace MedicalStoreWebApi.Models
         [Column(TypeName = "Money")]
         public decimal Price { get; set; }
 
+        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
         [JsonIgnore]

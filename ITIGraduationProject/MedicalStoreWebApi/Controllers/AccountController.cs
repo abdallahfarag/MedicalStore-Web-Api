@@ -358,6 +358,39 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return GetErrorResult(result);
             }
+            var addToRole = await UserManager.AddToRoleAsync(user.Id, "Customer");
+            if (!addToRole.Succeeded)
+            {
+                return GetErrorResult(addToRole);
+            }
+
+            return Ok();
+        }
+
+        [Authorize(Roles ="Admin")]
+        [Route("RegisterAdmin")]
+        public async Task<IHttpActionResult> RegisterAdmin(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
+
+            user.IsDeleted = false;
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            var addToRole = await UserManager.AddToRoleAsync(user.Id, "Admin");
+            if (!addToRole.Succeeded)
+            {
+                return GetErrorResult(addToRole);
+            }
 
             return Ok();
         }

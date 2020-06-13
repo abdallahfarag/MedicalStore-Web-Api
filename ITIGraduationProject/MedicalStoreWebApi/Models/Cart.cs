@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace MedicalStoreWebApi.Models
         [Key]
         [Column(Order =0)]
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Key]
         [Column(Order =1)]
@@ -22,7 +23,9 @@ namespace MedicalStoreWebApi.Models
         [Required]
         public int Quantity { get; set; }
 
+        [JsonIgnore]
         public virtual ApplicationUser User { get; set; }
+        [JsonIgnore]
         public virtual Product Product { get; set; } 
     }
 }
