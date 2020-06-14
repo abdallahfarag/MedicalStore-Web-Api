@@ -78,13 +78,19 @@ namespace MedicalStoreWebApi.Controllers
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
         }
+
+        
 
         // POST api/Account/Logout
         [Route("Logout")]

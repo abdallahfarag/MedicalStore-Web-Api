@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Management;
 using System.Net;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace MedicalStoreWebApi.Controllers
 {
@@ -52,6 +53,7 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return BadRequest("Invalid Cart");
             }
+            //User.Identity.GetUserId()
             context.Carts.Add(cart);
             await context.SaveChangesAsync();
             return Created("Cart item added successfully",cart);
