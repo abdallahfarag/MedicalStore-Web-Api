@@ -260,6 +260,10 @@
     <Compile Include="Migrations\202006121832439_AddCartAndOrderItems.designer.cs">
       <DependentUpon>202006121832439_AddCartAndOrderItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006141636180_EditUserInfo.cs" />
+    <Compile Include="Migrations\202006141636180_EditUserInfo.designer.cs">
+      <DependentUpon>202006141636180_EditUserInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -470,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006121832439_AddCartAndOrderItems.resx">
       <DependentUpon>202006121832439_AddCartAndOrderItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006141636180_EditUserInfo.resx">
+      <DependentUpon>202006141636180_EditUserInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
