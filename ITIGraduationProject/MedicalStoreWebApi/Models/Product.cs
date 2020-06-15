@@ -22,7 +22,7 @@ namespace MedicalStoreWebApi.Models
         public int QuantityInStock { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string Image { get; set; }
 
         [Column(TypeName = "Money")]
         public decimal Price { get; set; }

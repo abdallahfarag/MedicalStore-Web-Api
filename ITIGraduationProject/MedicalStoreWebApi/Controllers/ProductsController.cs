@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace MedicalStoreWebApi.Controllers
 {   
-    [Authorize(Roles ="Admin")]
+    //[Authorize(Roles ="Admin")]
     public class ProductsController : ApiController
     {
         private MedicalStoreDbContext db;
@@ -49,12 +52,21 @@ namespace MedicalStoreWebApi.Controllers
         }
 
         // POST: api/Products
-        public async Task<IHttpActionResult> PostAddProduct([FromBody] Product product)
+        public async Task<IHttpActionResult> PostProduct(Product product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
+
+            byte[] bytes = Convert.FromBase64String(product.Image);
+            Image image;
+            MemoryStream ms = new MemoryStream(bytes);
+            image = Image.FromStream(ms);
+            Stream stream = ms;
+            FileStream fs = stream as FileStream;
+            image.Save($"~/Resources/Images{fs.Name}");
+            
 
             db.Products.Add(product);
             await db.SaveChangesAsync();
@@ -97,5 +109,8 @@ namespace MedicalStoreWebApi.Controllers
 
             return Ok("Deleted successfully");
         }
+
+        }
     }
-}
+
+

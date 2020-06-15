@@ -264,6 +264,10 @@
     <Compile Include="Migrations\202006141636180_EditUserInfo.designer.cs">
       <DependentUpon>202006141636180_EditUserInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006151601441_UpdateProduct.cs" />
+    <Compile Include="Migrations\202006151601441_UpdateProduct.designer.cs">
+      <DependentUpon>202006151601441_UpdateProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -440,6 +444,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\Images\" />
     <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
@@ -477,6 +482,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006141636180_EditUserInfo.resx">
       <DependentUpon>202006141636180_EditUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006151601441_UpdateProduct.resx">
+      <DependentUpon>202006151601441_UpdateProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

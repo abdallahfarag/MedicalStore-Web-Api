@@ -84,6 +84,7 @@ namespace MedicalStoreWebApi.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
+                RoleName = UserManager.GetRoles(User.Identity.GetUserId()).FirstOrDefault(),
                 UserName = user.UserName,
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
