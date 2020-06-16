@@ -142,6 +142,20 @@ namespace MedicalStoreWebApi.Controllers
         }
 
 
+        [HttpPost]
+        [Route("api/Products/UniqueName/{ProductName}")]
+        public IHttpActionResult UniqueName(string ProductName)
+        {
+            var isExist = db.Products.Any(p => p.Name == ProductName);
+
+            if (isExist)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+
+        }
     }
 }
 
