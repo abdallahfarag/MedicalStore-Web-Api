@@ -59,15 +59,6 @@ namespace MedicalStoreWebApi.Controllers
                 return BadRequest();
             }
 
-            byte[] bytes = Convert.FromBase64String(product.Image);
-            Image image;
-            MemoryStream ms = new MemoryStream(bytes);
-            image = Image.FromStream(ms);
-            Stream stream = ms;
-            FileStream fs = stream as FileStream;
-            image.Save($"~/Resources/Images{fs.Name}");
-            
-
             db.Products.Add(product);
             await db.SaveChangesAsync();
             return Created("created successfully", product);
