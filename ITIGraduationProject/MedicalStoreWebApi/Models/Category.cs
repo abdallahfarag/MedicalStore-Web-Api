@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace MedicalStoreWebApi.Models
       //  [Display("Category Name")]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>();
     }
 }

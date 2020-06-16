@@ -30,7 +30,6 @@ namespace MedicalStoreWebApi.Models
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
-        [JsonIgnore]
         public virtual Category Category { get; set; }
     }
 }

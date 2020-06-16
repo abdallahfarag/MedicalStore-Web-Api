@@ -27,23 +27,26 @@ namespace MedicalStoreWebApi.Controllers
         public IHttpActionResult GetProducts()
         {
             var Products = db.Products.ToList();
-            string path;
+            //string path;
+            //string base64String = null;
             foreach (var item in Products)
             {
-                if(item.Image != null)
-                {
-                    path = $"~/Resources/{item.Name}{item.CategoryId}{item.Price}.png";
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(path))
-                    {
-                        using (MemoryStream m = new MemoryStream())
+                //if(item.Image != null)
+                //{
+
+                    string base64String = string.Empty;
+                    using (var img = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(item.Image))) 
+{
+                        using (var memStream = new MemoryStream())
                         {
-                            image.Save(m, image.RawFormat);
-                            byte[] imageBytes = m.ToArray();
-                            var base64String = Convert.ToBase64String(imageBytes);
+                            img.Save(memStream, img.RawFormat);
+                            byte[] imageBytes = memStream.ToArray();
+
+                            base64String = Convert.ToBase64String(imageBytes);
                             item.Image = base64String;
                         }
                     }
-                }
+                //}
             }
 
             if (Products.Count == 0)
@@ -60,6 +63,19 @@ namespace MedicalStoreWebApi.Controllers
         public async Task<IHttpActionResult> Getproduct(int id)
         {
             var product = await db.Products.FindAsync(id);
+
+            string base64String = string.Empty;
+            using (var img = System.Drawing.Image.FromFile(HttpContext.Current.Server.MapPath(product.Image)))
+            {
+                using (var memStream = new MemoryStream())
+                {
+                    img.Save(memStream, img.RawFormat);
+                    byte[] imageBytes = memStream.ToArray();
+
+                    base64String = Convert.ToBase64String(imageBytes);
+                    product.Image = base64String;
+                }
+            }
 
             if (product is null)
             {
@@ -83,7 +99,7 @@ namespace MedicalStoreWebApi.Controllers
             ms.Write(bytes, 0, bytes.Length);
             Image image = Image.FromStream(ms, true);
             image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"), System.Drawing.Imaging.ImageFormat.Png);
-            product.Image = $"~/Resources/{product.Id}.png"; 
+            product.Image = $"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"; 
             #endregion
 
             db.Products.Add(product);
@@ -99,12 +115,14 @@ namespace MedicalStoreWebApi.Controllers
                 return BadRequest();
             }
 
-            var catChk = await db.Products.FindAsync(product.Id);
-
-            if (catChk is null)
-            {
-                return NotFound();
-            }
+            #region Restore base64 string to image
+            byte[] bytes = Convert.FromBase64String(product.Image);
+            MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
+            ms.Write(bytes, 0, bytes.Length);
+            Image image = Image.FromStream(ms, true);
+            image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"), System.Drawing.Imaging.ImageFormat.Png);
+            product.Image = $"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png";
+            #endregion
 
             db.Products.AddOrUpdate(product);
             await db.SaveChangesAsync();
