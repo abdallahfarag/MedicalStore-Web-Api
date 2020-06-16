@@ -27,6 +27,24 @@ namespace MedicalStoreWebApi.Controllers
         public IHttpActionResult GetProducts()
         {
             var Products = db.Products.ToList();
+            string path;
+            foreach (var item in Products)
+            {
+                if(item.Image != null)
+                {
+                    path = $"~/Resources/{item.Name}{item.CategoryId}{item.Price}.png";
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(path))
+                    {
+                        using (MemoryStream m = new MemoryStream())
+                        {
+                            image.Save(m, image.RawFormat);
+                            byte[] imageBytes = m.ToArray();
+                            var base64String = Convert.ToBase64String(imageBytes);
+                            item.Image = base64String;
+                        }
+                    }
+                }
+            }
 
             if (Products.Count == 0)
             {
@@ -64,7 +82,7 @@ namespace MedicalStoreWebApi.Controllers
             MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
             ms.Write(bytes, 0, bytes.Length);
             Image image = Image.FromStream(ms, true);
-            image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Id}.png"), System.Drawing.Imaging.ImageFormat.Png);
+            image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"), System.Drawing.Imaging.ImageFormat.Png);
             product.Image = $"~/Resources/{product.Id}.png"; 
             #endregion
 
