@@ -1,6 +1,7 @@
 ﻿using MedicalStoreWebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Drawing;
 using System.IO;
@@ -24,9 +25,9 @@ namespace MedicalStoreWebApi.Controllers
 
         // GET: api/Products
         [AllowAnonymous]
-        public IHttpActionResult GetProducts()
+        public async Task<IHttpActionResult> GetProducts()
         {
-            var Products = db.Products.ToList();
+            var Products = await db.Products.ToListAsync();
 
             if (Products.Count == 0)
             {
@@ -58,19 +59,16 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return BadRequest();
             }
-
-            byte[] bytes = Convert.FromBase64String(product.Image);
-            Image image;
-            MemoryStream ms = new MemoryStream(bytes);
-            image = Image.FromStream(ms);
-            Stream stream = ms;
-            FileStream fs = stream as FileStream;
-            image.Save($"~/Resources/Images{fs.Name}");
-            
-
-            db.Products.Add(product);
-            await db.SaveChangesAsync();
-            return Created("created successfully", product);
+            try
+            {
+                db.Products.Add(product);
+                await db.SaveChangesAsync();
+                return Created("created successfully", product);
+            } catch
+            {
+                return BadRequest();
+            }
+           
         }
 
         // PUT: api/Products/5
@@ -110,7 +108,41 @@ namespace MedicalStoreWebApi.Controllers
             return Ok("Deleted successfully");
         }
 
+
+        [HttpPost]
+        [Route("api/Products/UploadImage/{ProductName}")]
+        public async Task<IHttpActionResult> UploadImage(string ProductName)
+        {
+            // Check if the request contains multipart/form-data. 
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                HttpPostedFile postedFile = httpRequest.Files[0];
+
+                var guid = Guid.NewGuid().ToString();
+                var filePath = HttpContext.Current.Server.MapPath($"~/Resources/Images/{guid}.jpeg");
+
+                postedFile.SaveAs(filePath);
+
+                var product = db.Products.SingleOrDefault(p => p.Name == ProductName);
+                product.Image = $"{guid}.jpeg";
+                await db.SaveChangesAsync();
+
+                return Created("created successfully", ProductName);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
+
+
     }
+}
 
 

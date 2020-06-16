@@ -268,6 +268,10 @@
     <Compile Include="Migrations\202006151601441_UpdateProduct.designer.cs">
       <DependentUpon>202006151601441_UpdateProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006160249471_UpdateProductNameCol.cs" />
+    <Compile Include="Migrations\202006160249471_UpdateProductNameCol.designer.cs">
+      <DependentUpon>202006160249471_UpdateProductNameCol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -485,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006151601441_UpdateProduct.resx">
       <DependentUpon>202006151601441_UpdateProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006160249471_UpdateProductNameCol.resx">
+      <DependentUpon>202006160249471_UpdateProductNameCol.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
