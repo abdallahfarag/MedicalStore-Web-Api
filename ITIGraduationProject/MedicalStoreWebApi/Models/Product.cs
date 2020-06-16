@@ -14,6 +14,8 @@ namespace MedicalStoreWebApi.Models
         public int Id { get; set; }
 
         [Required]
+        [Index("IX_UniqueKeyString", IsUnique = true, Order = 1)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
@@ -21,7 +23,6 @@ namespace MedicalStoreWebApi.Models
 
         public int QuantityInStock { get; set; }
 
-        [Required]
         public string Image { get; set; }
 
         [Column(TypeName = "Money")]
