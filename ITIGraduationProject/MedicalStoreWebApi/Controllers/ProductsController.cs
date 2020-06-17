@@ -13,7 +13,7 @@ using System.Web.Http;
 
 namespace MedicalStoreWebApi.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public class ProductsController : ApiController
     {
         private MedicalStoreDbContext db;
