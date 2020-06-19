@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedicalStoreWebApi.Controllers
 {
-  [Authorize(Roles ="Customer")]
+  //[Authorize(Roles ="Customer")]
     public class OrderController : ApiController
     {
         private MedicalStoreDbContext db;
@@ -40,6 +40,7 @@ namespace MedicalStoreWebApi.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Customer")]
         public async Task<IHttpActionResult> PostOrder( Order order)
         {
             if (ModelState.IsValid)

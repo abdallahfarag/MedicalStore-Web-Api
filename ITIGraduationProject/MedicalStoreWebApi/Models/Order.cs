@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedicalStoreWebApi.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +17,7 @@ namespace MedicalStoreWebApi.Models
         [Column(TypeName ="Date")]
         public DateTime DateAdded { get; set; }
         [Required]
-        public bool IsDelivered { get; set; }
+        public Orderstatus OrderStatus { get; set; }
         public string FeedBack { get; set; }
 
         [ForeignKey(nameof(User))]

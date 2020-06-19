@@ -1,6 +1,7 @@
 ﻿using MedicalStoreWebApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Drawing;
 using System.IO;
@@ -13,7 +14,7 @@ using System.Web.Http;
 
 namespace MedicalStoreWebApi.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    
     public class ProductsController : ApiController
     {
         private MedicalStoreDbContext db;
@@ -85,6 +86,7 @@ namespace MedicalStoreWebApi.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: api/Products
         public async Task<IHttpActionResult> PostProduct(Product product)
         {
@@ -107,6 +109,7 @@ namespace MedicalStoreWebApi.Controllers
             return Created("created successfully", product);
         }
 
+        [Authorize(Roles = "Customer,Admin")]
         // PUT: api/Products/5
         public async Task<IHttpActionResult> PutEditProduct(Product product)
         {
@@ -124,12 +127,13 @@ namespace MedicalStoreWebApi.Controllers
             product.Image = $"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png";
             #endregion
 
-            db.Products.AddOrUpdate(product);
+           // db.Products.AddOrUpdate(product);
+            db.Entry(product).State = EntityState.Modified;
             await db.SaveChangesAsync();
 
             return Created("updated successfully", product);
         }
-
+        [Authorize(Roles = "Admin")]
         // DELETE: api/Products/5
         public async Task<IHttpActionResult> DeleteProduct(int id)
         {
