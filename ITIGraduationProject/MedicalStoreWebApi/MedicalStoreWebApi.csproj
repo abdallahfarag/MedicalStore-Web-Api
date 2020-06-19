@@ -280,6 +280,10 @@
     <Compile Include="Migrations\202006191255171_EditOrderModel.designer.cs">
       <DependentUpon>202006191255171_EditOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006191521289_EditOrderModel1.cs" />
+    <Compile Include="Migrations\202006191521289_EditOrderModel1.designer.cs">
+      <DependentUpon>202006191521289_EditOrderModel1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -507,6 +511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006191255171_EditOrderModel.resx">
       <DependentUpon>202006191255171_EditOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006191521289_EditOrderModel1.resx">
+      <DependentUpon>202006191521289_EditOrderModel1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

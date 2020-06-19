@@ -11,7 +11,6 @@ using System.Web;
 
 namespace MedicalStoreWebApi.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class CategoriesController : ApiController
     {
         private MedicalStoreDbContext db;
@@ -50,6 +49,7 @@ namespace MedicalStoreWebApi.Controllers
             return Ok(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: api/Categories
         public async Task<IHttpActionResult> PostAddCat([FromBody]Category category)
         {
@@ -63,6 +63,7 @@ namespace MedicalStoreWebApi.Controllers
             return Created("created successfully", category);
         }
 
+        [Authorize(Roles = "Admin")]
         // PUT: api/Categories/5
         public async Task<IHttpActionResult> PutEditCat(Category category)
         {
@@ -84,6 +85,7 @@ namespace MedicalStoreWebApi.Controllers
             return Created("updated successfully", category);
         }
 
+        [Authorize(Roles = "Admin")]
         // DELETE: api/Categories/5
         public async Task<IHttpActionResult> DeleteCat(int id)
         {

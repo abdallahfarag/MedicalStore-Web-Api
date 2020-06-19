@@ -18,6 +18,12 @@ namespace MedicalStoreWebApi.Models
         public DateTime DateAdded { get; set; }
         [Required]
         public Orderstatus OrderStatus { get; set; }
+
+        [Required]
+        public string OrderAddress { get; set; }
+        [Phone]
+        [Required]
+        public string ContactPhone { get; set; }
         public string FeedBack { get; set; }
 
         [ForeignKey(nameof(User))]
