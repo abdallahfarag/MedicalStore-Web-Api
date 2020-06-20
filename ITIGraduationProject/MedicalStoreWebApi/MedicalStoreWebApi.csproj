@@ -288,6 +288,10 @@
     <Compile Include="Migrations\202006201215153_AddPaymentToOrderModel.designer.cs">
       <DependentUpon>202006201215153_AddPaymentToOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006202039301_EditOrderModelColNames.cs" />
+    <Compile Include="Migrations\202006202039301_EditOrderModelColNames.designer.cs">
+      <DependentUpon>202006202039301_EditOrderModelColNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -522,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006201215153_AddPaymentToOrderModel.resx">
       <DependentUpon>202006201215153_AddPaymentToOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006202039301_EditOrderModelColNames.resx">
+      <DependentUpon>202006202039301_EditOrderModelColNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
