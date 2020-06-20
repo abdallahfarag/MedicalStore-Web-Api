@@ -15,8 +15,8 @@ namespace MedicalStoreWebApi.Models
         [Required]
         [Column(TypeName ="Money")]
         public decimal TotalPrice { get; set; }
-        [Column(TypeName ="Date")]
-        [DataType(DataType.Date)]
+        [Column(TypeName = "smalldatetime")]
+        [DataType(DataType.DateTime)]
         public DateTime DateAdded { get; set; }
         [Required]
         public Orderstatus OrderStatus { get; set; }

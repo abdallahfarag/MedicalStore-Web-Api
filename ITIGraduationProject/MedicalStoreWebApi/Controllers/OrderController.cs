@@ -108,7 +108,7 @@ namespace MedicalStoreWebApi.Controllers
                 totalprice += item.Quantity * db.Products.Find(item.ProductId).Price;
             }
             order.TotalPrice = totalprice;
-            order.DateAdded = DateTime.Now.Date;
+            order.DateAdded = DateTime.Now;
             order.OrderStatus = Orderstatus.Confirmed;
             order.OrderItems = new List<OrderItems>();
             foreach (var item in cartitems)
