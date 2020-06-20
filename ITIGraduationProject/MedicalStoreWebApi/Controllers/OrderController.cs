@@ -87,25 +87,25 @@ namespace MedicalStoreWebApi.Controllers
         [Authorize(Roles = "Admin,Customer")]
         public async Task<IHttpActionResult> PostOrderWithItems(Order order)
         {
+            var userId = User.Identity.GetUserId();
+            order.UserId = userId;
+            var cartitems = db.Carts.Where(i => i.UserId.ToLower() == userId.ToLower()).ToList();
+            decimal totalprice = 0;
+            foreach (var item in cartitems)
+            {
+                totalprice += item.Quantity * db.Products.Find(item.ProductId).Price;
+            }
+            order.TotalPrice = totalprice;
+            order.DateAdded = DateTime.Now.Date;
+            order.OrderStatus = Orderstatus.Confirmed;
+            order.OrderItems = new List<OrderItems>();
+            foreach (var item in cartitems)
+            {
+                order.OrderItems.Add(new OrderItems() { ProductId = item.ProductId, Quantity = item.Quantity });
+                db.Carts.Remove(item);
+            }
             if (ModelState.IsValid)
             {
-                var userId = User.Identity.GetUserId();
-                order.UserId = userId;
-                var cartitems = db.Carts.Where(i => i.UserId.ToLower() == userId.ToLower()).ToList();
-                decimal totalprice = 0;
-                foreach (var item in cartitems)
-                {
-                    totalprice += item.Quantity * db.Products.Find(item.ProductId).Price;
-                }
-                order.TotalPrice = totalprice;
-                order.DateAdded = DateTime.Now.Date;
-                order.OrderStatus = Orderstatus.Confirmed;
-                order.OrderItems = new List<OrderItems>();
-                foreach (var item in cartitems)
-                {
-                    order.OrderItems.Add(new OrderItems() { ProductId = item.ProductId, Quantity = item.Quantity });
-                    db.Carts.Remove(item);
-                }
                 db.Orders.Add(order);
                 await db.SaveChangesAsync();
                 return Ok(order);
