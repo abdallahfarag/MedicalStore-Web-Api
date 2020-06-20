@@ -1,4 +1,5 @@
 ﻿using MedicalStoreWebApi.Models.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,10 +16,12 @@ namespace MedicalStoreWebApi.Models
         [Column(TypeName ="Money")]
         public decimal TotalPrice { get; set; }
         [Column(TypeName ="Date")]
+        [DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
         [Required]
         public Orderstatus OrderStatus { get; set; }
 
+        public PaymentMethod PaymentMethod { get; set; }
         [Required]
         public string OrderAddress { get; set; }
         [Phone]
@@ -30,6 +33,8 @@ namespace MedicalStoreWebApi.Models
         public string UserId { get; set; }
 
         public virtual ApplicationUser User  { get; set; }
+        
+        public virtual ICollection<OrderItems> OrderItems { get; set; } = new HashSet<OrderItems>();
 
     }
 }

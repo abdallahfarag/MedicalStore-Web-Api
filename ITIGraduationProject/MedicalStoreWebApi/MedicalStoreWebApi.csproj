@@ -284,12 +284,17 @@
     <Compile Include="Migrations\202006191521289_EditOrderModel1.designer.cs">
       <DependentUpon>202006191521289_EditOrderModel1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006201215153_AddPaymentToOrderModel.cs" />
+    <Compile Include="Migrations\202006201215153_AddPaymentToOrderModel.designer.cs">
+      <DependentUpon>202006201215153_AddPaymentToOrderModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Enums\Orderstatus.cs" />
+    <Compile Include="Models\Enums\PaymentMethod.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItems.cs" />
@@ -514,6 +519,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006191521289_EditOrderModel1.resx">
       <DependentUpon>202006191521289_EditOrderModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006201215153_AddPaymentToOrderModel.resx">
+      <DependentUpon>202006201215153_AddPaymentToOrderModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
