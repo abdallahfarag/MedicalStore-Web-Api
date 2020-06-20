@@ -30,16 +30,28 @@ namespace MedicalStoreWebApi.Controllers
             }
             return Ok(order);
         }
-        [Authorize(Roles ="Admin,Customer")]
+        [Authorize(Roles = "Admin,Customer")]
         [Route("GetOrder")]
         public async Task<IHttpActionResult> GetOrder(int id)
         {
-            var order =await db.Orders.FindAsync(id);
-            if(order == null)
+            var order = await db.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
             return Ok(order);
+        }
+
+        [Authorize(Roles = "Admin,Customer")]
+        [Route("GetUserOrders")]
+        public IHttpActionResult GetUserOrder(string userId)
+        {
+            var userOrders =  db.Orders.Where(ww => ww.UserId.ToLower() == userId.ToLower()).ToList();
+            if (userOrders == null)
+            {
+                return NotFound();
+            }
+            return Ok(userOrders);
         }
 
         //[Authorize(Roles = "Customer")]
