@@ -53,7 +53,10 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return BadRequest("Invalid Cart");
             }
-            //User.Identity.GetUserId()
+            Product productAdded = context.Products.Find(cart.ProductId);
+            productAdded.QuantityInStock -= cart.Quantity;
+            context.Entry(productAdded).State = EntityState.Modified;
+            
             context.Carts.Add(cart);
             await context.SaveChangesAsync();
             return Created("Cart item added successfully",cart);
@@ -66,7 +69,27 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return BadRequest("invalid cart item");
             }
-            context.Entry(cart).State = EntityState.Modified;
+            var cartLastItem = context.Carts.SingleOrDefault(i => i.UserId.ToLower() == cart.UserId.ToLower() && i.ProductId == cart.ProductId);
+            Product product = context.Products.Find(cart.ProductId);
+            if(cart.Quantity > cartLastItem.Quantity)
+            {
+                var differnce = cart.Quantity - cartLastItem.Quantity;
+                product.QuantityInStock -= differnce;
+                context.Entry(product).State = EntityState.Modified;
+
+                //await context.SaveChangesAsync();
+                //context.Products.Find(cart.ProductId).QuantityInStock -= differnce;
+            }
+            if (cart.Quantity < cartLastItem.Quantity)
+            {
+                var differnce = cartLastItem.Quantity - cart.Quantity ;
+                product.QuantityInStock += differnce;
+                context.Entry(product).State = EntityState.Modified;
+                //await context.SaveChangesAsync();
+                //context.Products.Find(cart.ProductId).QuantityInStock += differnce;
+            }
+            cartLastItem.Quantity = cart.Quantity;
+            context.Entry(cartLastItem).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return Ok();
         }
@@ -75,6 +98,10 @@ namespace MedicalStoreWebApi.Controllers
         public async Task<IHttpActionResult> DeleteCartItem(string userId ,int ProductId)
         {
             var cartItem = context.Carts.SingleOrDefault(ww => ww.UserId.ToLower() == userId.ToLower() && ww.ProductId == ProductId);
+            Product product = context.Products.Find(ProductId);
+            product.QuantityInStock += cartItem.Quantity;
+            context.Entry(product).State = EntityState.Modified;
+            //context.Products.Find(ProductId).QuantityInStock += cartItem.Quantity;
             context.Carts.Remove(cartItem);
             await context.SaveChangesAsync();
             return StatusCode(HttpStatusCode.NoContent);

@@ -117,18 +117,22 @@ namespace MedicalStoreWebApi.Controllers
             {
                 return BadRequest();
             }
-
+            Product productBeforeEdit = db.Products.Find(product.Id);
+            productBeforeEdit.Name = product.Name;
+            productBeforeEdit.Description = product.Description;
+            productBeforeEdit.QuantityInStock = product.QuantityInStock;
+            productBeforeEdit.Price = product.Price;
             #region Restore base64 string to image
-            byte[] bytes = Convert.FromBase64String(product.Image);
-            MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
-            ms.Write(bytes, 0, bytes.Length);
-            Image image = Image.FromStream(ms, true);
-            image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"), System.Drawing.Imaging.ImageFormat.Png);
-            product.Image = $"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png";
+            //byte[] bytes = Convert.FromBase64String(product.Image);
+            //MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length);
+            //ms.Write(bytes, 0, bytes.Length);
+            //Image image = Image.FromStream(ms, true);
+            //image.Save(HttpContext.Current.Server.MapPath($"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png"), System.Drawing.Imaging.ImageFormat.Png);
+            //product.Image = $"~/Resources/{product.Name}{product.CategoryId}{product.Price}.png";
             #endregion
 
-           // db.Products.AddOrUpdate(product);
-            db.Entry(product).State = EntityState.Modified;
+            // db.Products.AddOrUpdate(product);
+            db.Entry(productBeforeEdit).State = EntityState.Modified;
             await db.SaveChangesAsync();
 
             return Created("updated successfully", product);
