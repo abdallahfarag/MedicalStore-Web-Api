@@ -113,7 +113,7 @@ namespace MedicalStoreWebApi.Controllers
         // PUT: api/Products/5
         public async Task<IHttpActionResult> PutEditProduct(Product product)
         {
-            if (!ModelState.IsValid)
+            if (/*!ModelState.IsValid*/product.Name is null)
             {
                 return BadRequest();
             }
