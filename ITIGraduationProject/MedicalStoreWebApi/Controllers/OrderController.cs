@@ -124,5 +124,22 @@ namespace MedicalStoreWebApi.Controllers
             }
             return BadRequest();
         }
+
+
+        [Authorize(Roles = "Admin,Customer")]
+        [Route("EditStatus")]
+        public async Task<IHttpActionResult> PutStatus(Order order)
+        {
+             
+            if (order.Id != 0)
+            {
+                var orderResult = await db.Orders.FindAsync(order.Id);
+                orderResult.OrderStatus = order.OrderStatus;
+                await db.SaveChangesAsync();
+                return Ok(order);
+            }
+
+            return BadRequest();
+        }
     }
 }
