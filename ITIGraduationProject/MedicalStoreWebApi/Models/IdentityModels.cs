@@ -48,6 +48,7 @@ namespace MedicalStoreWebApi.Models
 
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<OrderItems> OrderItems { get; set; }
+        public virtual DbSet<ContactUs> ContactUs { get; set; }
 
 
 

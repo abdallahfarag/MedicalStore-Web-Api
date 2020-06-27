@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderItemsController.cs" />
@@ -292,11 +293,16 @@
     <Compile Include="Migrations\202006202039301_EditOrderModelColNames.designer.cs">
       <DependentUpon>202006202039301_EditOrderModelColNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006272231316_AddContactUs.cs" />
+    <Compile Include="Migrations\202006272231316_AddContactUs.designer.cs">
+      <DependentUpon>202006272231316_AddContactUs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ContactUs.cs" />
     <Compile Include="Models\Enums\Orderstatus.cs" />
     <Compile Include="Models\Enums\PaymentMethod.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -529,6 +535,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006202039301_EditOrderModelColNames.resx">
       <DependentUpon>202006202039301_EditOrderModelColNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006272231316_AddContactUs.resx">
+      <DependentUpon>202006272231316_AddContactUs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
