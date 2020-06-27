@@ -134,6 +134,31 @@ namespace MedicalStoreWebApi.Controllers
             if (order.Id != 0)
             {
                 var orderResult = await db.Orders.FindAsync(order.Id);
+                
+                //modifying cancel status is denied 
+                if(orderResult.OrderStatus == Orderstatus.Cancelled)
+                {
+                    return BadRequest();
+                }
+
+                //increase the stock quantity if order is cancelled  
+                if(order.OrderStatus == Orderstatus.Cancelled)
+                {
+                    var orderItems = db.OrderItems.Where(o => o.OrderId == order.Id).ToList();
+                    var allProducts = db.Products;
+                    foreach(var item in orderItems)
+                    {
+                        var products = allProducts.Where(p => p.Id == item.ProductId).ToList();
+                        foreach(var product in products)
+                        {
+                            if(item.ProductId == product.Id)
+                            {
+                                product.QuantityInStock += item.Quantity;
+                            }
+                        }
+                    }
+                }
+
                 orderResult.OrderStatus = order.OrderStatus;
                 await db.SaveChangesAsync();
                 return Ok(order);
